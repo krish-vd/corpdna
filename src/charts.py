@@ -139,28 +139,33 @@ def generate_trend_chart(data: dict, output_path: str) -> str:
         ax = axes[idx]
         idx += 1
         width = 0.38
+        rev_map = dict(zip(revenue_y, revenue_v))
+        prof_map = dict(zip(profit_y, profit_v))
+        combined_years = [y for y in years if y in rev_map or y in prof_map]
+        x = range(len(combined_years))
+        all_values = []
         if revenue_y:
-            x = range(len(revenue_y))
+            rev_bar_v = [rev_map.get(y, float("nan")) for y in combined_years]
+            all_values += [v for v in rev_bar_v if v == v]
             ax.bar(
-                [i - width / 2 for i in x], revenue_v, width=width,
+                [i - width / 2 for i in x], rev_bar_v, width=width,
                 label=f"Revenue ({currency})" if currency else "Revenue",
                 color=accent3,
             )
-            ax.set_xticks(list(x))
-            ax.set_xticklabels(revenue_y)
         if profit_y:
-            x = range(len(profit_y))
-            offset = width / 2 if revenue_y else 0
+            prof_bar_v = [prof_map.get(y, float("nan")) for y in combined_years]
+            all_values += [v for v in prof_bar_v if v == v]
             ax.bar(
-                [i + offset for i in x], profit_v, width=width,
+                [i + width / 2 for i in x], prof_bar_v, width=width,
                 label=f"Net Profit ({currency})" if currency else "Net Profit",
                 color=accent,
             )
-            if not revenue_y:
-                ax.set_xticks(list(x))
-                ax.set_xticklabels(profit_y)
+        ax.set_xticks(list(x))
+        ax.set_xticklabels(combined_years)
+        if all_values:
+            ax.set_ylim(0, max(all_values) * 1.18)
         ax.set_title("Revenue vs Net Profit", fontsize=13, fontweight="bold")
-        ax.legend(facecolor="#1a1d23", labelcolor=text_color, edgecolor="#3a3f4b")
+        ax.legend(facecolor="#1a1d23", labelcolor=text_color, edgecolor="#3a3f4b", loc="upper right")
         ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{v:,.0f}"))
 
     if "margin" in panels:

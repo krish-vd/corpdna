@@ -165,7 +165,9 @@ def generate_trend_chart(data: dict, output_path: str) -> str:
         if all_values:
             ax.set_ylim(0, max(all_values) * 1.18)
         ax.set_title("Revenue vs Net Profit", fontsize=13, fontweight="bold")
-        ax.legend(facecolor="#1a1d23", labelcolor=text_color, edgecolor="#3a3f4b", loc="upper right")
+        legend = ax.legend(facecolor="#1a1d23", labelcolor=text_color, edgecolor="#3a3f4b",
+                            loc="upper right", framealpha=1.0)
+        legend.set_zorder(10)
         ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda v, _: f"{v:,.0f}"))
 
     if "margin" in panels:
@@ -194,8 +196,9 @@ def generate_trend_chart(data: dict, output_path: str) -> str:
         ax.set_ylim(0, top)
         ax.set_title("Debt-to-Equity Ratio Trend", fontsize=13, fontweight="bold")
         ax.set_ylabel("D/E ratio")
-        ax.legend(facecolor="#1a1d23", labelcolor=text_color, edgecolor="#3a3f4b",
-                  fontsize=8, loc="upper right")
+        de_legend = ax.legend(facecolor="#1a1d23", labelcolor=text_color, edgecolor="#3a3f4b",
+                               fontsize=8, loc="upper right", framealpha=1.0)
+        de_legend.set_zorder(10)
 
     if "stock_price" in panels:
         ax = axes[idx]

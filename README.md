@@ -24,23 +24,25 @@ chooses honesty over false coverage.
 
 ## Commands
 
-Plugin commands are namespaced with the plugin name (`corpdna:`):
-
 | Command | What it does |
 |---|---|
-| `/corpdna:analyze [company]` | Full five-dimension intelligence X-ray with score (includes a Trend X-Ray PNG) |
-| `/corpdna:quick-check [company]` | Business summary + strengths + concerns in 60 sec |
-| `/corpdna:visualize [company] [year]` | Generates a standalone Trend X-Ray PNG: revenue vs profit, margin trend, debt-to-equity trend, stock price — for the last 3-5 years up to the year you specify |
+| `/analyze [company]` | Full five-dimension intelligence X-ray with score (includes a Trend X-Ray PNG) |
+| `/quick-check [company]` | Business summary + strengths + concerns in 60 sec |
+| `/visualize [company] [year]` | Generates a standalone Trend X-Ray PNG: revenue vs profit, margin trend, debt-to-equity trend, stock price — for the last 3-5 years up to the year you specify |
 
 ## Example
 
 ```
-/corpdna:analyze Infosys
-/corpdna:analyze Reliance Industries
-/corpdna:analyze Apple
-/corpdna:quick-check HDFC Bank
-/corpdna:visualize Tata Motors FY23
+/analyze Infosys
+/analyze Reliance Industries
+/analyze Apple
+/quick-check HDFC Bank
+/visualize Tata Motors FY23
 ```
+
+If you install this as a shared plugin (see [Plugin distribution](#plugin-distribution)
+below) instead of using it directly from a clone, commands are namespaced
+as `/corpdna:analyze`, `/corpdna:quick-check`, `/corpdna:visualize`.
 
 ---
 
@@ -96,20 +98,29 @@ lower confidence. This honesty is a core design principle.
 ```bash
 git clone https://github.com/krish-vd/corpdna
 cd corpdna
+claude
 ```
 
-Load the plugin (no install step needed — runs directly from the cloned folder):
-
-```bash
-claude --plugin-dir .
-```
-
-Then try `/corpdna:analyze Infosys` (run `/help` to confirm the commands
-are listed under the `corpdna` namespace).
+That's it — the repo includes a `.claude/` directory with the agent and
+skills pre-wired, so Claude Code loads them automatically for this project
+(accept the workspace trust prompt if asked). Try `/analyze Infosys`.
 
 No API keys. The Trend X-Ray chart feature requires `matplotlib`
 (`pip install matplotlib` if not already installed) — everything else has
 zero dependencies.
+
+## Plugin distribution
+
+The repo is also a valid Claude Code plugin (`.claude-plugin/plugin.json` +
+top-level `agents/`/`skills/`). To use it as a shared plugin across
+projects instead of per-project via `.claude/`:
+
+```bash
+git clone https://github.com/krish-vd/corpdna ~/.claude/skills/corpdna
+```
+
+This auto-loads as `corpdna@skills-dir` in every project on your next
+session, with commands namespaced as `/corpdna:analyze`, etc.
 
 ---
 

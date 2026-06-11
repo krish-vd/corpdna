@@ -1,13 +1,13 @@
 {
   "name": "corpdna",
-  "display_name": "CorpDNA — Corporate Intelligence Agent",
+  "displayName": "CorpDNA — Corporate Intelligence Agent",
   "description": "Builds a complete intelligence X-ray of any publicly listed company — business model, financial red flags, management credibility, competitive position, and risk score. Public data only, no API keys.",
   "version": "1.0.0",
-  "author": "Krish Desai",
+  "author": {
+    "name": "Krish Desai"
+  },
   "license": "MIT",
-  "agents": ["agents/corpdna.md"],
-  "skills": ["skills/analyze.md", "skills/quick-check.md", "skills/visualize.md"],
-  "tags": [
+  "keywords": [
     "corporate-intelligence",
     "due-diligence",
     "equity-research",

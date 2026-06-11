@@ -24,20 +24,22 @@ chooses honesty over false coverage.
 
 ## Commands
 
+Plugin commands are namespaced with the plugin name (`corpdna:`):
+
 | Command | What it does |
 |---|---|
-| `/analyze [company]` | Full five-dimension intelligence X-ray with score (includes a Trend X-Ray PNG) |
-| `/quick-check [company]` | Business summary + strengths + concerns in 60 sec |
-| `/visualize [company] [year]` | Generates a standalone Trend X-Ray PNG: revenue vs profit, margin trend, debt-to-equity trend, stock price — for the last 3-5 years up to the year you specify |
+| `/corpdna:analyze [company]` | Full five-dimension intelligence X-ray with score (includes a Trend X-Ray PNG) |
+| `/corpdna:quick-check [company]` | Business summary + strengths + concerns in 60 sec |
+| `/corpdna:visualize [company] [year]` | Generates a standalone Trend X-Ray PNG: revenue vs profit, margin trend, debt-to-equity trend, stock price — for the last 3-5 years up to the year you specify |
 
 ## Example
 
 ```
-/analyze Infosys
-/analyze Reliance Industries
-/analyze Apple
-/quick-check HDFC Bank
-/visualize Tata Motors FY23
+/corpdna:analyze Infosys
+/corpdna:analyze Reliance Industries
+/corpdna:analyze Apple
+/corpdna:quick-check HDFC Bank
+/corpdna:visualize Tata Motors FY23
 ```
 
 ---
@@ -96,7 +98,18 @@ git clone https://github.com/krish-vd/corpdna
 cd corpdna
 ```
 
-No dependencies. No API keys. Load into Claude Code and start analyzing.
+Load the plugin (no install step needed — runs directly from the cloned folder):
+
+```bash
+claude --plugin-dir .
+```
+
+Then try `/corpdna:analyze Infosys` (run `/help` to confirm the commands
+are listed under the `corpdna` namespace).
+
+No API keys. The Trend X-Ray chart feature requires `matplotlib`
+(`pip install matplotlib` if not already installed) — everything else has
+zero dependencies.
 
 ---
 

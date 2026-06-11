@@ -132,6 +132,11 @@ def generate_trend_chart(data: dict, output_path: str) -> str:
         ax.title.set_color(text_color)
         ax.xaxis.label.set_color(text_color)
         ax.yaxis.label.set_color(text_color)
+        # Subtle, low-zorder horizontal gridlines only — full-style gridlines
+        # render on top of legend frames regardless of legend zorder.
+        ax.grid(False)
+        ax.set_axisbelow(True)
+        ax.yaxis.grid(True, color="#3a3f4b", alpha=0.5, linewidth=0.8, zorder=0)
 
     idx = 0
 

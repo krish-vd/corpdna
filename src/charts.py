@@ -36,6 +36,7 @@ with fewer than 2 valid points are skipped.
 import argparse
 import json
 import sys
+import textwrap
 from datetime import datetime
 
 
@@ -212,9 +213,12 @@ def generate_trend_chart(data: dict, output_path: str) -> str:
 
     footer = source_note or "Source: figures gathered via CorpDNA web research — verify against primary filings."
     footer += f"  |  Generated {datetime.now().strftime('%d %B %Y')}"
-    fig.text(0.5, 0.005, footer, ha="center", fontsize=8.5, color="#9aa0ab")
+    wrapped = textwrap.wrap(footer, width=140)
+    bottom_margin = 0.02 + 0.014 * len(wrapped)
+    for i, line in enumerate(reversed(wrapped)):
+        fig.text(0.5, 0.005 + i * 0.016, line, ha="center", fontsize=8.5, color="#9aa0ab")
 
-    fig.tight_layout(rect=[0, 0.02, 1, 0.96])
+    fig.tight_layout(rect=[0, bottom_margin, 1, 0.96])
     fig.savefig(output_path, dpi=200, facecolor=fig.get_facecolor())
     plt.close(fig)
     return output_path

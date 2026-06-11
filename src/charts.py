@@ -190,12 +190,12 @@ def generate_trend_chart(data: dict, output_path: str) -> str:
                     label="Elevated leverage threshold (1.0)")
         ax.axhline(2.0, color=accent2, linestyle="--", linewidth=1.5,
                     label="High leverage threshold (2.0)")
-        top = max(2.0, max(de_v)) * 1.25
+        top = max(2.0, max(de_v)) * 1.35
         ax.set_ylim(0, top)
         ax.set_title("Debt-to-Equity Ratio Trend", fontsize=13, fontweight="bold")
         ax.set_ylabel("D/E ratio")
         ax.legend(facecolor="#1a1d23", labelcolor=text_color, edgecolor="#3a3f4b",
-                  fontsize=8, loc="lower right")
+                  fontsize=8, loc="upper right")
 
     if "stock_price" in panels:
         ax = axes[idx]
@@ -218,6 +218,7 @@ def generate_trend_chart(data: dict, output_path: str) -> str:
 
     footer = source_note or "Source: figures gathered via CorpDNA web research — verify against primary filings."
     footer += f"  |  Generated {datetime.now().strftime('%d %B %Y')}"
+    footer = footer.replace("$", r"\$")
     wrapped = textwrap.wrap(footer, width=140)
     bottom_margin = 0.02 + 0.014 * len(wrapped)
     for i, line in enumerate(reversed(wrapped)):
